@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* -------tags -------*/
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+.tags {
+  width: 20%;
+  margin-left: 50px;
+}
+
+/* .global-feed {
+  width: 80%;
+} */
+
+.padding {
+  padding: 1 3px;
+  margin: 3px !important;
+}
+
+.font20 {
+  font-size: 20px;
+}
+
+
+/* -------------form----------- */
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container {
+  padding: 1rem;
+  /* margin-top: 3rem; */
+}
+
+.input {
+  width: 300px ;
+  padding: 0.6rem;
+  margin: 0.4rem;
+  font-size: 1rem;
+}
+
+.log {
+  text-align: center;
+  color: rgb(119, 84, 202);
+  font-size: 50px;
+  letter-spacing: 2px;
+  margin: 10px;
+}
