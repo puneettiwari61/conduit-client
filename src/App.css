@@ -91,3 +91,15 @@
   letter-spacing: 2px;
   margin: 10px;
 }
+
+.paper {
+  background-color: #4a148c !important;
+  text-align: center;
+  line-height: 5;
+  font-size: 50px;
+  border-radius: "0 !important";
+  color: white !important;
+  margin-top: 10px; 
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}

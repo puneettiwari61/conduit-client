@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import  Link  from "@material-ui/core/Link"
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +53,7 @@ export default function SimpleCard(props) {
         </Typography> */}
       </CardContent>
       <CardActions >
-        <Button size="small">Read More...</Button>
+        <Button size="small"><Link href={`article/${props.slug}`} >Read More...</Link></Button>
       </CardActions>
     </Card>
   );

@@ -62,16 +62,13 @@ export default function ButtonAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <HomeIcon fontSize="large"  />
           </IconButton>
-          <Typography variant="h6" color="white" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
                <Link href="/" color="inherit">Conduit</Link>
           </Typography>
           <Link href="/signup" color="inherit" className={classes.button}>Signup</Link>
           <Link href="/signin" color="inherit" className={classes.button}>Login</Link>
         </Toolbar>
       </AppBar>
-      <Grid item xs={12} className={classes.grid} >
-          <Paper className={classes.paper}>Conduit</Paper>
-        </Grid>
     </div>
   );
 }

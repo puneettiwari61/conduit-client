@@ -6,6 +6,8 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp/index'
 import Header from './components/Common/index.jsx'
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Article from './components/article';
+import Tags from './components/tags';
 
 
 
@@ -17,6 +19,9 @@ function App() {
     <Route path='/' exact component={Home} />
     <Route path='/signin' component={SignIn} />
     <Route path='/signup' component={SignUp} />
+    <Route path='/article/:slug' component={Article} />
+    <Route path='/tag/:tagname' component={Tags} />
+
     </>
   );
 }
