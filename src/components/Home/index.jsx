@@ -11,7 +11,7 @@ export default class Home extends Component {
     super();
     this.state = {
       articles: null,
-      tags: null
+      tags: null,
     }
   }
 
@@ -20,9 +20,7 @@ export default class Home extends Component {
     const articles = () => axios.get("https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles").then(res => res.data)
     const tags = () => axios.get("https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/tags").then(res => res.data)
 
-
     Promise.all([articles(), tags()]).then(data => {
-      console.log(data)
       this.setState({ articles: data[0].searchResult, tags: data[1].tags })
     })
       .catch(err => console.log(err))
@@ -43,7 +41,7 @@ export default class Home extends Component {
           </div>
           <div className="tags">
             <p className={"font20"}>Popular tags</p>
-            {this.state.tags && this.state.tags.map((t, id) => <Link href={`/tag/${t}`}> <Chip key={id} label={t} className="padding" clickable /> </Link>)}
+            {this.state.tags && this.state.tags.map((t, id) => <Link className='tag-link' href={`/tag/${t}`} key={id} > <Chip label={t} className="padding" clickable /> </Link>)}
           </div>
         </div>
       </>

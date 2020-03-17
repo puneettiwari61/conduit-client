@@ -53,7 +53,7 @@ export default function SimpleCard(props) {
         </Typography> */}
       </CardContent>
       <CardActions >
-        <Button size="small"><Link href={`article/${props.slug}`} >Read More...</Link></Button>
+        <Button size="small"><Link href={`/article/${props.slug}`} >Read More...</Link></Button>
       </CardActions>
     </Card>
   );
