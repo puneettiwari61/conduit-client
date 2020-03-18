@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import CreateIcon from '@material-ui/icons/Create';
 import AddIcon from '@material-ui/icons/Add';
 import {withRouter} from "react-router-dom"
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { LinearProgress } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: 2
   },
   button: {
-    fontSize: 25,
+    fontSize: 20,
     cursor: "pointer",
     padding: 15
   },
@@ -37,7 +39,7 @@ const useStyles = makeStyles(theme => ({
  backgroundColor: "#6a1b9a",
   },
   tool: {
-    width:"70%",
+    width:"75%",
     margin: "0 auto"
      },
   paper: {
@@ -53,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "0 !important"
   },
   linkButton: {
-    fontSize: 25
+    fontSize: 20
   }
 }));
 // #4db6ac
@@ -61,6 +63,7 @@ function ButtonAppBar(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <LinearProgress />
       <AppBar position="static" color="secondary" className={classes.bar}>
         <Toolbar className={classes.tool}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -72,11 +75,10 @@ function ButtonAppBar(props) {
           {
             props.isLogged ? (
               <>
-              <Button href="/create"
-          className={classes.linkButton}
-                  startIcon={<AddIcon size="small" />}
-          color="inherit" >New Article</Button>
-          <Link color="inherit" className={classes.button}>Logout</Link>
+              <Link href="/create"
+          className={"flex2"}
+          color="inherit" ><AddCircleIcon  /><span className={classes.linkButton} >New Article</span></Link>
+          <Link color="inherit" className={classes.button} onClick={props.logoutFunc}>Logout</Link>
           </>
             ) : (
               <>

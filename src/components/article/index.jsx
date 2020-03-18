@@ -65,12 +65,12 @@ export default class Article extends Component {
     return (
       <>
         <Grid item xs={12}  >
-          <Paper className='paper' >{this.state.article && this.state.article.title}
+          <Paper className='paper' >{this.state.article && this.state.article.title.substr(0,25) + '...'}
             <div className='flex2 author-details'>
               <div className="flex2">
                 <Avatar className="avatar" />
                 <div className='flex2 column'>
-                  <p className='author'> <Link className="link">{this.state.article && this.state.article.author.username}</Link></p>
+                  <p className='author'> <Link href={`/profile/${this.state.article && this.state.article.author.username}`} className="link">{this.state.article && this.state.article.author.username}</Link></p>
                   <span className="date">{this.state.article && this.getDate(this.state.article.createdAt)}</span>
                 </div>
                 <Button
@@ -94,11 +94,11 @@ export default class Article extends Component {
             </div>
           </Paper>
         </Grid>
-        <Container maxWidth="sm" className="container">
+        <Container maxWidth="lg" className="container">
           <div>
             <Paper variant="elevation" className='padit' >
               <h1>{this.state.article && this.state.article.description}</h1>
-              <p>{this.state.article && this.state.article.body}</p>
+              <p className="article-body">{this.state.article && this.state.article.body}</p>
             </Paper>
           </div>
         </Container>

@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid'
 import { Card } from '@material-ui/core';
+import Axios from 'axios';
 
 export default class componentName extends Component {
   constructor(){
@@ -23,7 +24,10 @@ export default class componentName extends Component {
 
   handleSubmit =(e) => {
     e.preventDefault();
-    console.log(this.state)
+    var tagList = this.state.tagList.split(',').map(t => t.trim())
+    Axios.post("https://conduit-campus.herokuapp.com/api/v1/articles",{...this.state, tagList},{ headers: { authorization: localStorage.conduit } })
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
   }
 
   render() {
