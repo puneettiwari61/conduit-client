@@ -17,8 +17,8 @@ export default class Home extends Component {
 
   componentDidMount() {
     const url = "https://conduit.productionready.io/api"
-    const articles = () => axios.get("https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles").then(res => res.data)
-    const tags = () => axios.get("https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/tags").then(res => res.data)
+    const articles = () => axios.get("https://conduit-campus.herokuapp.com/api/v1/articles").then(res => res.data)
+    const tags = () => axios.get("https://conduit-campus.herokuapp.com/api/v1/tags").then(res => res.data)
 
     Promise.all([articles(), tags()]).then(data => {
       this.setState({ articles: data[0].searchResult, tags: data[1].tags })
@@ -28,6 +28,7 @@ export default class Home extends Component {
 
 
   render() {
+
     return (
       <>
         <Grid item xs={12} >

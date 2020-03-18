@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button'
 import Axios from 'axios';
+// import Alert from '@material-ui/lab/Alert';
+
+
 
 export default class SignIn extends Component {
 
@@ -24,12 +27,14 @@ export default class SignIn extends Component {
   Axios.post("https://conduit-campus.herokuapp.com/api/v1/users/login",{...this.state})
   .then(res => {
     if(res.data.success == true){
-      // localStorage.setItem('token', res.data.token)
-      localStorage.setItem('isLogged', true)
-      this.props.isLoggedUpdate(Boolean(localStorage.isLogged))
+      localStorage.setItem('conduit', res.data.token)
+      // localStorage.setItem('isLogged', true)
+      this.props.isLoggedUpdate(true)
       this.props.history.push('/')
     }
     if(res.data.success == false){
+      // localStorage.setItem('isLogged', false)
+      this.props.isLoggedUpdate(false)
       console.log("invalid credentials")
     }
     this.setState({
@@ -38,7 +43,11 @@ export default class SignIn extends Component {
     })
 
   })
-  .catch(err => console.log(err))
+  .catch(err => {
+    // localStorage.setItem('isLogged', false)
+    console.log("invalid credentials")
+    this.props.isLoggedUpdate(false)
+    console.log(err)})
 }
 
 
@@ -53,6 +62,7 @@ export default class SignIn extends Component {
       <input className="input" type="password" placeholder="password" name="password" value={this.state.password} onChange={this.handleChange} />
       <Button color="primary" size="large" type="submit" variant="contained" onClick={this.onSubmit}> Submit </Button>
       </div>
+      {/* <Alert severity="error">This is an error alert — check it out!</Alert> */}
     </form>
     </div>
     </>

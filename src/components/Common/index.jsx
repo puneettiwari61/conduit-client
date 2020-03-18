@@ -51,12 +51,14 @@ const useStyles = makeStyles(theme => ({
   },
   grid: {
     borderRadius: "0 !important"
+  },
+  linkButton: {
+    fontSize: 25
   }
 }));
 // #4db6ac
 function ButtonAppBar(props) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <AppBar position="static" color="secondary" className={classes.bar}>
@@ -71,7 +73,7 @@ function ButtonAppBar(props) {
             props.isLogged ? (
               <>
               <Button href="/create"
-          className={classes.button}
+          className={classes.linkButton}
                   startIcon={<AddIcon size="small" />}
           color="inherit" >New Article</Button>
           <Link color="inherit" className={classes.button}>Logout</Link>
