@@ -10,7 +10,9 @@ import HomeIcon from '@material-ui/icons/Home';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { width, height } from '@material-ui/system';
+import CreateIcon from '@material-ui/icons/Create';
+import AddIcon from '@material-ui/icons/Add';
+import {withRouter} from "react-router-dom"
 
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 // #4db6ac
-export default function ButtonAppBar() {
+function ButtonAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -65,10 +67,27 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
                <Link href="/" color="inherit">Conduit</Link>
           </Typography>
-          <Link href="/signup" color="inherit" className={classes.button}>Signup</Link>
-          <Link href="/signin" color="inherit" className={classes.button}>Login</Link>
+          {
+            props.isLogged ? (
+              <>
+              <Button href="/create"
+          className={classes.button}
+                  startIcon={<AddIcon size="small" />}
+          color="inherit" >New Article</Button>
+          <Link color="inherit" className={classes.button}>Logout</Link>
+          </>
+            ) : (
+              <>
+              <Link href="/signup" color="inherit" className={classes.button}>Signup</Link>
+              <Link href="/signin"  color="inherit" className={classes.button}>Login</Link>
+              </>
+            )
+          }
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+
+export default withRouter(ButtonAppBar)

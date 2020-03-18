@@ -24,54 +24,40 @@ export default class Article extends Component {
   componentDidMount() {
         Axios.get(`https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}`,{ headers: { authorization: localStorage.token } })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.setState({ article: res.data.article, favorited: res.data.favorited })
         })
       .catch(err => console.log(err))
   }
-
-  // https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(prevProps.user !== this.props.user){
-  //   this.props.user.favorites.includes(this.state.article._id) ? this.setState({favorite: 'Unfavorite Aricle'}) : this.setState({favorite: "Favorite Article"})
-  //   }
-  // }
-  
 
   getDate = (d) => {
     const date = new Date(`${d}`)
     return date.toLocaleDateString()
   }
 
-  // handleFavorite = () => {
-  //   var method = this.state.favorite == "Favorite Article" ? 'post' : 'delete'  
-  //   if(method == "post"){
-  //   Axios.post(`https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/favorite`,{},{ headers: { authorization: localStorage.token } })
-  //   .then(res => {
-  //     console.log('post',this.props.user.favorites.includes(this.state.article._id))
-  //     this.props.user.favorites.includes(this.state.article._id) == true ? this.setState({favorite: 'Unfavorite Aricle'}) : this.setState({favorite: "Favorite Article"})
-  //     console.log(this.state.favorite)
-  //   })
-  //   .catch(err => console.log(err))
-  // }
-  // else{
-  //     Axios.delete(`https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/favorite`,{ headers: { authorization: localStorage.token } })
-  //     .then(res => {
-  //       console.log('delete',this.props.user.favorites.includes(this.state.article._id) )
-  //       this.props.user.favorites.includes(this.state.article._id) == true ? this.setState({favorite: 'Unfavorite Aricle'}) : this.setState({favorite: "Favorite Article"})
-  //       console.log(this.state.favorite)
-  //     })
-  //     .catch(err => console.log(err))
-  // }
-  // }
+  handleFavorite = () => {
+    var method = this.state.favorited !== true ? 'post' : 'delete'  
+    if(method == "post"){
+    Axios.post(`https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/favorite`,{},{ headers: { authorization: localStorage.token } })
+    .then(res => {
+      this.setState({favorited: true})
+    })
+    .catch(err => console.log(err))
+  }
+  else{
+      Axios.delete(`https://cors-anywhere.herokuapp.com/https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/favorite`,{ headers: { authorization: localStorage.token } })
+      .then(res => {
+        this.setState({favorited: false})
+      })
+      .catch(err => console.log(err))
+  }
+  }
 
   getFavourite = () => {
     return 
   }
 
   render() {
-    console.log(this.state.article, this.state.favorited)
     return (
       <>
         <Grid item xs={12}  >
@@ -91,6 +77,7 @@ export default class Article extends Component {
         className="icon-button"
       >Follow Author </Button>
                 <Button
+                onClick={this.handleFavorite}
         variant="contained"
         color="default"
         startIcon={<FavoriteIcon size="small" />}

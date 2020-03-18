@@ -9,7 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Article from './components/article';
 import Tags from './components/tags';
 import Axios from 'axios';
-
+import CreateArticle from './components/article/CreateArticle'
 
 
 class App extends React.Component {
@@ -18,6 +18,7 @@ class App extends React.Component {
     super()
     this.state = {
       user: localStorage.token ? true : false,
+      isLogged: localStorage.isLogged,
       userData: null
     }
   }
@@ -33,15 +34,21 @@ class App extends React.Component {
   }
 
 
+  isLoggedUpdate = (value) =>{
+    this.setState({isLogged: value})
+  }
+
+
   render() {
     console.log(this.state)
     return (
       <>
         <CssBaseline />
-        <Header />
+        <Header isLogged={this.state.isLogged} />
         <Route path='/' exact component={Home} />
-        <Route path='/signin' component={SignIn} />
+        <Route path='/signin' render={(props) => <SignIn {...props} isLoggedUpdate={this.isLoggedUpdate} />} />
         <Route path='/signup' component={SignUp} />
+        <Route path='/create' component={CreateArticle} />
         <Route path='/article/:slug' render={(props) => <Article {...props} user={this.state.userData && this.state.userData} />}  />
         <Route path='/tag/:tagname' component={Tags} />
       </>
