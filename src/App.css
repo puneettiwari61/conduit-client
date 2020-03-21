@@ -37,7 +37,7 @@
   }
 }
 
-body{
+body {
   padding-bottom: 1rem;
 }
 
@@ -66,7 +66,6 @@ body{
   font-size: 20px;
 }
 
-
 /* -------------form----------- */
 .form {
   display: flex;
@@ -81,7 +80,7 @@ body{
 }
 
 .input {
-  width: 300px ;
+  width: 300px;
   padding: 0.6rem;
   margin: 0.4rem;
   font-size: 1rem;
@@ -107,7 +106,7 @@ body{
   font-size: 50px;
   border-radius: "0 !important";
   color: white !important;
-  margin-top: 10px; 
+  margin-top: 10px;
   letter-spacing: 5px;
   text-transform: uppercase;
 }
@@ -140,7 +139,7 @@ body{
   justify-content: center;
 }
 
-.author-details{
+.author-details {
   margin-bottom: 0;
   padding-bottom: 0;
   flex-direction: column;
@@ -154,7 +153,7 @@ body{
   cursor: pointer;
 }
 
-.icon-button{
+.icon-button {
   font-size: 0.6rem !important;
   margin-left: 16px !important;
 }
@@ -163,38 +162,46 @@ body{
   flex-direction: column;
 }
 
-.date{
+.date {
   font-size: 0.7rem;
   padding: 0rem;
   margin: 0rem;
 }
 
-
-.createAricle-div{
+.createAricle-div {
   width: 50%;
   margin: 0 auto;
   padding: 2rem;
   margin: 2rem auto;
 }
 
+.comment-div {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0rem;
+}
+
 .one-m {
   margin: 1rem !important;
 }
 
-
-.article-body{
+.zero-left-m {
+  margin: 1rem 0 !important;
+}
+.article-body {
   line-height: 1.5;
   font-size: 20px !important;
   font-family: cursive;
   color: #453855;
+  word-break: break-all;
 }
 
 /* ----------profile----------*/
-.profile-avatar{
-width: 90px !important;
-height: 90px !important;
-color: gainsboro !important;
-/* background: gainsboro !important; */
+.profile-avatar {
+  width: 90px !important;
+  height: 90px !important;
+  color: gainsboro !important;
+  /* background: gainsboro !important; */
 }
 
 .profile-name {
@@ -202,3 +209,30 @@ color: gainsboro !important;
   margin: 0rem;
   font-size: 1.5rem;
 }
+
+.absolute {
+  /* position: fixed !important; */
+  /* top: 100px !important; */
+  /* z-index: 500 !important; */
+  /* color: black !important;  */
+  background: rgb(71, 6, 248) !important;
+  border: 1px solid black !important;
+  outline: 1px solid black !important;
+  /* transition: all 1s; */
+}
+.relative {
+  /* position: relative; */
+  /* top: 1px; */
+  height: 5px;
+  width: 100%;
+  /* transition: all 1s; */
+  background: #6e3e9a;
+  /* color: rgb(209, 209, 209); */
+}
+
+/* .skeleton {
+  color: #ddc9f5 !important;
+  background: #a688ca !important;
+  border: #282c34 !important;
+  outline: #282c34 !important;
+} */

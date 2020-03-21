@@ -12,7 +12,7 @@ import Axios from "axios";
 import CreateArticle from "./components/article/CreateArticle";
 import { Switch } from "react-router-dom";
 import Profile from "./components/Profile/Profile";
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Divider } from "@material-ui/core";
 
 function AuthRoutes(authProps) {
   return (
@@ -33,7 +33,7 @@ function AuthRoutes(authProps) {
         <Route path="/tag/:tagname" component={Tags} />
         <Route path="/profile/:author" component={Profile} />
         <Route path="*">
-          <h1>Error Page not found</h1>{" "}
+          <h1>Error Page not found</h1>
         </Route>
       </Switch>
     </>
@@ -61,7 +61,7 @@ function PulicRoutes(publicProps) {
         <Route path="/tag/:tagname" component={Tags} />
         <Route path="/profile/:author" component={Profile} />
         <Route path="*">
-          <h1>Error Page not found</h1>{" "}
+          <h1>Error Page not found</h1>
         </Route>
       </Switch>
     </>
@@ -79,20 +79,23 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({loader:true})
+    this.setState({ loader: true });
     if (localStorage["conduit"]) {
       Axios.get("https://conduit-campus.herokuapp.com/api/v1/user", {
         headers: { authorization: localStorage.conduit }
       })
         .then(res => {
-          this.setState({ isLogged: true, userData: res.data.user });
+          this.setState({
+            isLogged: true,
+            userData: res.data.user,
+            loader: false
+          });
         })
         .catch(err => {
-          this.setState({ isLogged: false });
+          this.setState({ isLogged: false, loader: false });
           console.log(err);
         });
     }
-    this.setState({loader:false})
   }
 
   isLoggedUpdate = value => {
@@ -105,13 +108,23 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     return (
       <>
         <CssBaseline />
-        {this.state.loader==false ? '':  <LinearProgress /> }
+        <div className="relative">
+          {this.state.loader == false ? (
+            ""
+          ) : (
+            <LinearProgress className="absolute" />
+          )}
+        </div>
 
-        <Header isLogged={this.state.isLogged} logoutFunc={this.logoutFunc} />
+        <Header
+          isLogged={this.state.isLogged}
+          logoutFunc={this.logoutFunc}
+          user={this.state.userData}
+        />
         {this.state.isLogged ? (
           <AuthRoutes
             data={this.state.userData}
