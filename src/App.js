@@ -20,12 +20,13 @@ function AuthRoutes(authProps) {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/create" component={CreateArticle} />
+        {console.log(authProps, "auth routes")}
         <Route
           path="/article/:slug"
           render={props => (
             <Article
               {...props}
-              user={authProps.data.userData && authProps.data.userData}
+              user={authProps.data && authProps.data}
               isLogged={authProps.isLogged}
             />
           )}
@@ -79,9 +80,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
     this.setState({ loader: true });
     if (localStorage["conduit"]) {
-      Axios.get("https://conduit-campus.herokuapp.com/api/v1/user", {
+      Axios.get(`${url}/user`, {
         headers: { authorization: localStorage.conduit }
       })
         .then(res => {
@@ -95,6 +97,29 @@ class App extends React.Component {
           this.setState({ isLogged: false, loader: false });
           console.log(err);
         });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+    if (prevState.isLogged !== this.state.isLogged) {
+      this.setState({ loader: true });
+      if (localStorage["conduit"]) {
+        Axios.get(`${url}/user`, {
+          headers: { authorization: localStorage.conduit }
+        })
+          .then(res => {
+            this.setState({
+              isLogged: true,
+              userData: res.data.user,
+              loader: false
+            });
+          })
+          .catch(err => {
+            this.setState({ isLogged: false, loader: false });
+            console.log(err);
+          });
+      }
     }
   }
 
@@ -127,7 +152,7 @@ class App extends React.Component {
         />
         {this.state.isLogged ? (
           <AuthRoutes
-            data={this.state.userData}
+            data={this.state.userData && this.state.userData}
             isLogged={this.state.isLogged}
           />
         ) : (

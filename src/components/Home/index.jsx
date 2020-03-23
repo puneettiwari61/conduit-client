@@ -20,15 +20,9 @@ export default class Home extends Component {
 
   componentDidMount() {
     this.setState({ loader: true });
-    const url = "https://conduit.productionready.io/api";
-    const articles = () =>
-      axios
-        .get("https://conduit-campus.herokuapp.com/api/v1/articles")
-        .then(res => res.data);
-    const tags = () =>
-      axios
-        .get("https://conduit-campus.herokuapp.com/api/v1/tags")
-        .then(res => res.data);
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+    const articles = () => axios.get(`${url}/articles`).then(res => res.data);
+    const tags = () => axios.get(`${url}/tags`).then(res => res.data);
 
     Promise.all([articles(), tags()])
       .then(data => {

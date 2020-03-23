@@ -18,24 +18,48 @@ export default class Article extends Component {
       article: "",
       favorited: "",
       open: true,
-      comment: null
+      comment: null,
+      follow: ""
       // user: this.props.user && this.props.user || null
     };
   }
 
   componentDidMount() {
-    Axios.get(
-      `http://localhost:3002/api/v1/articles/${this.props.match.params.slug}`,
-      { headers: { authorization: localStorage.conduit } }
-    )
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+
+    Axios.get(`${url}/articles/${this.props.match.params.slug}`, {
+      headers: { authorization: localStorage.conduit }
+    })
       .then(res => {
-        console.log(res);
         this.setState({
           article: res.data.article,
-          favorited: res.data.favorited
+          favorited: res.data.favorited,
+          follow: res.data.article.author.following.includes(
+            this.props.user && this.props.user._id
+          )
         });
       })
       .catch(err => console.log(err));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+
+    if (prevState.open !== this.state.open || prevProps !== this.props) {
+      Axios.get(`${url}/articles/${this.props.match.params.slug}`, {
+        headers: { authorization: localStorage.conduit }
+      })
+        .then(res => {
+          this.setState({
+            article: res.data.article,
+            favorited: res.data.favorited,
+            follow: res.data.article.author.following.includes(
+              this.props.user && this.props.user._id
+            )
+          });
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   getDate = d => {
@@ -43,13 +67,27 @@ export default class Article extends Component {
     return date.toLocaleDateString();
   };
 
+  handleDelete = i => {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+
+    Axios.delete(
+      `${url}/articles/${this.props.match.params.slug}/comments/${i}`,
+      {
+        headers: { authorization: localStorage.conduit }
+      }
+    )
+      .then(res => this.setState({ open: !this.state.open }))
+      .catch(err => console.log(err));
+  };
+
   handleFavorite = () => {
-    if (!this.props.isLogged) return console.log("please login");
-    console.log("clicked in fav");
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+    if (!this.props.isLogged) return;
+    // console.log("clicked in fav");
     var method = this.state.favorited !== true ? "post" : "delete";
     if (method == "post") {
       Axios.post(
-        `http://localhost:3002/api/v1/articles/${this.props.match.params.slug}/favorite`,
+        `${url}/articles/${this.props.match.params.slug}/favorite`,
         {},
         { headers: { authorization: localStorage.conduit } }
       )
@@ -58,10 +96,9 @@ export default class Article extends Component {
         })
         .catch(err => console.log(err));
     } else {
-      Axios.delete(
-        `https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/favorite`,
-        { headers: { authorization: localStorage.conduit } }
-      )
+      Axios.delete(`${url}/articles/${this.props.match.params.slug}/favorite`, {
+        headers: { authorization: localStorage.conduit }
+      })
         .then(res => {
           this.setState({ favorited: false });
         })
@@ -70,16 +107,51 @@ export default class Article extends Component {
   };
 
   handleComment = c => {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+
     Axios.post(
-      `https://conduit-campus.herokuapp.com/api/v1/articles/${this.props.match.params.slug}/comments`,
+      `${url}/articles/${this.props.match.params.slug}/comments`,
       { body: c },
       { headers: { authorization: localStorage.conduit } }
     )
-      .then(res => this.setState({ comment: res.data["successfully added"] }))
+      .then(res => {
+        this.setState({ open: !this.state.open });
+        return res;
+        // console.log(this.state.comment);
+      })
       .catch(error => console.log(error));
   };
 
+  handleFollow = () => {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+    if (!this.props.isLogged) return;
+    var method = this.state.follow !== true ? "post" : "delete";
+    if (method == "post") {
+      Axios.post(
+        `${url}/profiles/${this.state.article &&
+          this.state.article.author.username}/follow`,
+        {},
+        { headers: { authorization: localStorage.conduit } }
+      )
+        .then(res => {
+          this.setState({ follow: true });
+        })
+        .catch(err => console.log(err));
+    } else {
+      Axios.delete(
+        `${url}/profiles/${this.state.article &&
+          this.state.article.author.username}/follow`,
+        { headers: { authorization: localStorage.conduit } }
+      )
+        .then(res => {
+          this.setState({ follow: false });
+        })
+        .catch(err => console.log(err));
+    }
+  };
+
   render() {
+    console.log(this.props.user, "article following");
     return (
       <>
         <Grid item xs={12}>
@@ -105,15 +177,23 @@ export default class Article extends Component {
                       this.getDate(this.state.article.createdAt)}
                   </span>
                 </div>
-                <Button
+                {/* <Button
                   variant="contained"
                   color="default"
                   startIcon={<AddIcon size="small" />}
                   size="small"
                   className="icon-button"
+                  onClick={() => this.handleFollow()}
                 >
-                  Follow Author{" "}
-                </Button>
+                  {this.state.follow ? "Unfollow" : "Follow Author"}
+                </Button> */}
+                <SimplePopover
+                  content={"please login"}
+                  name={this.state.follow ? "Unfollow" : "Follow Author"}
+                  startIcon={<AddIcon size="small" />}
+                  status={this.props.isLogged}
+                  onClickHandle={this.handleFollow}
+                />
                 {/* <Button
                 onClick={this.handleFavorite}
         variant="contained"
@@ -146,6 +226,9 @@ export default class Article extends Component {
         <Comments
           handleClick={this.handleComment}
           comments={this.state.article && this.state.article.comments}
+          handleDelete={this.handleDelete}
+          isLogged={this.props.isLogged}
+          user={this.props && this.props.user}
         />
       </>
     );

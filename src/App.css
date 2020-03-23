@@ -230,9 +230,53 @@ body {
   /* color: rgb(209, 209, 209); */
 }
 
-/* .skeleton {
-  color: #ddc9f5 !important;
+.skeleton {
+  /* color: #ddc9f5 !important;
   background: #a688ca !important;
   border: #282c34 !important;
-  outline: #282c34 !important;
-} */
+  outline: #282c34 !important; */
+  /* width: 600px !important; */
+  margin: 0 auto !important;
+}
+
+.author-para {
+  padding: 0.2rem;
+  /* padding-left: 1remx  ; */
+  margin: 0rem;
+  background: gainsboro;
+  color: #7e97e2;
+  display: flex;
+}
+
+.zeropad {
+  padding: 0rem !important;
+}
+
+.comment-body {
+  padding: 0.5rem;
+}
+
+.author-comment-icon {
+  margin: 0 0.5rem;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.grey {
+  background: gainsboro;
+}
+
+.mb {
+  margin-bottom: 0.2rem !important;
+}
+
+.mt {
+  margin-top: 0.2 !important;
+  padding: 0rem 1rem !important;
+}
+
+.ml {
+  margin-left: 0.5rem;
+}

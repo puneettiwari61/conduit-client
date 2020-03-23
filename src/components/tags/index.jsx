@@ -14,10 +14,9 @@ export default class Tags extends Component {
     };
   }
   componentDidMount() {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
     this._isMounted = true;
-    Axios.get(
-      `https://conduit-campus.herokuapp.com/api/v1/articles?tagList=${this.props.match.params.tagname}`
-    )
+    Axios.get(`${url}/articles?tagList=${this.props.match.params.tagname}`)
       .then(res => {
         if (this._isMounted) {
           this.setState({ articles: res.data.searchResult });

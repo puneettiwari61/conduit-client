@@ -11,21 +11,47 @@ export default class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      profile: null
+      profile: null,
+      follow: ""
     };
   }
 
   componentDidMount() {
-    Axios.get(
-      `http://localhost:3002/api/v1/profiles/${this.props.match.params.author}`,
-      { headers: { authorization: localStorage.conduit } }
-    )
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+
+    Axios.get(`${url}/profiles/${this.props.match.params.author}`, {
+      headers: { authorization: localStorage.conduit }
+    })
       .then(res => {
         console.log(res.data, "profile");
-        this.setState({ profile: res.data });
+        this.setState({ profile: res.data, follow: res.data.following });
       })
       .catch(err => console.log(err));
   }
+
+  handleFollow = () => {
+    const url = "https://conduit-campus.herokuapp.com/api/v1";
+    var method = this.state.follow !== true ? "post" : "delete";
+    if (method == "post") {
+      Axios.post(
+        `${url}/profiles/${this.props.match.params.author}/follow`,
+        {},
+        { headers: { authorization: localStorage.conduit } }
+      )
+        .then(res => {
+          this.setState({ follow: true });
+        })
+        .catch(err => console.log(err));
+    } else {
+      Axios.delete(`${url}/profiles/${this.props.match.params.author}/follow`, {
+        headers: { authorization: localStorage.conduit }
+      })
+        .then(res => {
+          this.setState({ follow: false });
+        })
+        .catch(err => console.log(err));
+    }
+  };
 
   render() {
     return (
@@ -34,8 +60,12 @@ export default class Profile extends Component {
           <Paper className="paper">
             <InsertEmoticonTwoToneIcon className="profile-avatar" />
             <p className="profile-name">{this.props.match.params.author}</p>
-            <Button variant="contained" size="small">
-              Follow {this.props.match.params.author}
+            <Button
+              variant="contained"
+              size="small"
+              onClick={this.handleFollow}
+            >
+              {this.state.follow ? "Unfollow" : "Follow Author"}
             </Button>
           </Paper>
         </Grid>
